@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EarnZone Bot | Telegram</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* same CSS as before, omitted for brevity */
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" id="userPfp" class="pfp" alt="User Photo">
+    <div class="username" id="userName">@User</div>
+    <div class="balance-box">💰 Balance: <span id="userBalance">0</span> Coins</div>
+  </div>
+
+  <div class="glow-text">🎯 Complete Tasks & Earn Instantly</div>
+
+  <div class="btn-container">
+    <button onclick="claimReward()">💎 Claim Reward</button>
+    <button onclick="bonusReward()">🎁 Bonus Reward</button>
+    <button onclick="boostReward()">🚀 Boost Reward</button>
+  </div>
+
+  <footer>
+    <div>✨ The More You Play, The More You Earn ✨</div>
+    <div class="credit">#CREDIT - @EndingGamer</div>
+  </footer>
+</div>
+
+<!-- Monetag Ad SDK -->
+<script src='//libtl.com/sdk.js' data-zone='9857656' data-sdk='show_9857656'></script>
+
+<script>
+  // Ask for user ID when page loads
+  let userId = prompt("Enter your Telegram User ID:");
+  let userName = "@User";
+  let userPhoto = "https://cdn-icons-png.flaticon.com/512/2111/2111646.png";
+  let balance = 0;
+
+  if (userId) {
+    // Here you could fetch user info from your server if available
+    userName = "@User" + userId; // placeholder username based on ID
+  }
+
+  const userNameEl = document.getElementById('userName');
+  const userPfpEl = document.getElementById('userPfp');
+  const balanceEl = document.getElementById('userBalance');
+
+  userNameEl.innerText = userName;
+  userPfpEl.src = userPhoto;
+  balanceEl.innerText = balance;
+
+  function addCoins(amount) {
+    balance += amount;
+    balanceEl.innerText = balance;
+  }
+
+  // Monetag Rewarded Ad
+  function claimReward() {
+    show_9857656().then(() => {
+      alert('🎉 Reward Claimed! +10 Coins');
+      addCoins(10);
+    }).catch(() => alert('⚠️ Failed to load reward ad.'));
+  }
+
+  // Monetag Popup Ad
+  function bonusReward() {
+    show_9857656('pop').then(() => {
+      alert('🎁 Bonus Completed! +5 Coins');
+      addCoins(5);
+    }).catch(() => alert('⚠️ Popup reward unavailable.'));
+  }
+
+  // Monetag In-App Ads
+  function boostReward() {
+    show_9857656({
+      type: 'inApp',
+      inAppSettings: {
+        frequency: 2,
+        capping: 0.1,
+        interval: 30,
+        timeout: 5,
+        everyPage: false
+      }
+    });
+    alert('🚀 Boost Mode Activated! Watch & Earn.');
+  }
+</script>
+
+</body>
+</html>
