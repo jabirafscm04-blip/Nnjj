@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EarnZone Bot | Telegram</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    backdrop-filter: blur(15px);
+    overflow: hidden;
+  }
+
+  .header {
+    text-align: center;
+    padding: 40px 20px 25px;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+  }
+
+  .pfp {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(255,255,255,0.7);
+    box-shadow: 0 0 20px rgba(0,255,255,0.3);
+    margin-bottom: 15px;
+  }
+
+  .username {
+    font-size: 1.5em;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(0,0,0,0.4);
+  }
+
+  .balance-box {
+    background: rgba(0,0,0,0.3);
+    border-radius: 15px;
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 1.1em;
+    color: #00ffae;
+    box-shadow: inset 0 0 10px rgba(0,255,200,0.4);
+  }
+
+  .section-title {
+    text-align: center;
+    margin: 25px 0 10px;
+    font-size: 1.2em;
+    color: #a3faff;
+    letter-spacing: 1px;
+  }
+
+  .btn-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 25px 30px;
+  }
+
+  button {
+    background: linear-gradient(45deg, #00d4ff, #0072ff);
+    border: none;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 1.1em;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #0072ff, #00d4ff);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+  }
+
+  .glow-text {
+    text-align: center;
+    font-weight: 600;
+    margin: 20px 0;
+    color: #00eaff;
+    text-shadow: 0 0 8px #00eaff;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px 10px;
+    color: #ccc;
+    font-size: 0.85em;
+    opacity: 0.8;
+  }
+
+  .credit {
+    color: #aaa;
+    font-size: 0.8em;
+    margin-top: 5px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" id="userPfp" class="pfp" alt="User Photo">
+      <div class="username" id="userName">@User</div>
+      <div class="balance-box">💰 Balance: <span id="userBalance">0</span> Coins</div>
+    </div>
+
+    <div class="glow-text">🎯 Complete Tasks & Earn Instantly</div>
+
+    <div class="btn-container">
+      <button onclick="claimReward()">💎 Claim Reward</button>
+      <button onclick="bonusReward()">🎁 Bonus Reward</button>
+      <button onclick="boostReward()">🚀 Boost Reward</button>
+    </div>
+
+    <footer>
+      <div>✨ The More You Play, The More You Earn ✨</div>
+      <div class="credit">#CREDIT - @EndingGamer</div>
+    </footer>
+  </div>
+
+  <!-- Monetag Ad SDK -->
+  <script src='//libtl.com/sdk.js' data-zone='9857656' data-sdk='show_9857656'></script>
+
+<script>
+  // Telegram user info (for Telegram WebApp integration)
+  const user = Telegram?.WebApp?.initDataUnsafe?.user;
+  if (user) {
+    document.getElementById('userName').innerText = "@" + (user.username || user.first_name || "User");
+    if (user.photo_url) {
+      document.getElementById('userPfp').src = user.photo_url;
+    }
+  }
+
+  let balance = 0;
+  const balanceEl = document.getElementById('userBalance');
+
+  function addCoins(amount) {
+    balance += amount;
+    balanceEl.innerText = balance;
+  }
+
+  // Monetag Rewarded Ad
+  function claimReward() {
+    show_9857656().then(() => {
+      alert('🎉 Reward Claimed! +10 Coins');
+      addCoins(10);
+    }).catch(() => alert('⚠️ Failed to load reward ad.'));
+  }
+
+  // Monetag Popup Ad
+  function bonusReward() {
+    show_9857656('pop').then(() => {
+      alert('🎁 Bonus Completed! +5 Coins');
+      addCoins(5);
+    }).catch(() => alert('⚠️ Popup reward unavailable.'));
+  }
+
+  // Monetag In-App Ads
+  function boostReward() {
+    show_9857656({
+      type: 'inApp',
+      inAppSettings: {
+        frequency: 2,
+        capping: 0.1,
+        interval: 30,
+        timeout: 5,
+        everyPage: false
+      }
+    });
+    alert('🚀 Boost Mode Activated! Watch & Earn.');
+  }
+</script>
+
+</body>
+</html>
